@@ -2,20 +2,30 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://unpkg.com/infinite-scroll@3/dist/infinite-scroll.pkgd.min.js"></script>
 <body>
-<div class='infinite-container'>
+<div id='container'>
 <ul>
     <li> <div class='infinite-item'>
         <video autoplay loop muted height=300px playsinline>
         <source type='video/mp4' src="http://i.imgur.com/zvATqgs.mp4">
         </video>
-    </div> <li> 
+    </div> </li> 
 </ul>
 </div>
-<a class="infinite-more-link" href="2.html">loading...</a>
+
+<a id="next" href="2.html">loading...</a>
+
 <script>
-    $('.infinite-container').infiniteScroll({
-        path: '.infinite-more-link',
-        append: '.infinite-item',
+    var $container = $('#container').infiniteScroll({
+        path: '#next',
+        append: false,
+        debug: true,
+        history: false,
+        responseType: 'text',
+    });
+
+    $container.on('load.infiniteScroll', function( response ){
+        $('#container').append($("<div>").load($('#next').attr("href")))
+        $('#next').attr('href', '3.html')
     });
 </script>
 </body>
